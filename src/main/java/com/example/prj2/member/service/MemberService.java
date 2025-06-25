@@ -55,4 +55,18 @@ public class MemberService {
 
         return dto;
     }
+
+    /*
+        회원정보 수정
+     */
+    public void update(MemberFormDto inputData) {
+        // 수정(update) 대상 데이터 조회
+        memberRepo.findById(inputData.getId()).ifPresent(member -> {
+            member.setId(inputData.getId());
+            member.setNickname(inputData.getNickname());
+            member.setInfo(inputData.getInfo());
+            memberRepo.save(member);
+        });
+
+    }
 }
