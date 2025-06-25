@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="~{layout/main::commHead('회원 목록')}">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<nav th:replace="~{layout/main::upperNavbar('list')}"></nav>
 <!--div>h2+table>thead>tr>th*3^^tbody>tr>td*3-->
 <div>
     <h2>회원 목록</h2>
@@ -26,5 +27,6 @@
     </table>
 </div>
 
+<th:block th:replace="~{layout/main::commScript}"/>
 </body>
 </html>

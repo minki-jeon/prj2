@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="~{layout/main::commHead('회원가입')}">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<nav th:replace="~{layout/main::upperNavbar('signup')}"></nav>
 <!--div>h2>form:post>div*4>label+input-->
 <div>
     <h2>회원 가입</h2>
@@ -31,5 +32,6 @@
     </form>
 </div>
 
+<th:block th:replace="~{layout/main::commScript}"/>
 </body>
 </html>
