@@ -1,5 +1,6 @@
 package com.example.prj2.member.controller;
 
+import com.example.prj2.member.dto.MemberDetailDto;
 import com.example.prj2.member.dto.MemberFormDto;
 import com.example.prj2.member.dto.MemberListInfo;
 import com.example.prj2.member.service.MemberService;
@@ -55,7 +56,7 @@ public class MemberController {
     @GetMapping("detail")
     public String detail(Model model, String id) {
 
-        MemberFormDto member = memberServ.detail(id);
+        MemberDetailDto member = memberServ.detail(id);
         model.addAttribute("member", member);
 
         return "member/detail";

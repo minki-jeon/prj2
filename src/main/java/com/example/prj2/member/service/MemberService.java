@@ -1,5 +1,6 @@
 package com.example.prj2.member.service;
 
+import com.example.prj2.member.dto.MemberDetailDto;
 import com.example.prj2.member.dto.MemberFormDto;
 import com.example.prj2.member.dto.MemberListInfo;
 import com.example.prj2.member.entity.Member;
@@ -41,14 +42,15 @@ public class MemberService {
     /*
         회원정보 조회
      */
-    public MemberFormDto detail(String id) {
+    public MemberDetailDto detail(String id) {
         // Entity to Dto
-        MemberFormDto dto = new MemberFormDto();
+        MemberDetailDto dto = new MemberDetailDto();
         memberRepo.findById(id).ifPresent(member -> {
             dto.setId(member.getId());
             dto.setNickname(member.getNickname());
             dto.setInfo(member.getInfo());
-            dto.setPassword(member.getPassword());
+            dto.setCreatedAt(member.getCreatedAt());
+
         });
 
         return dto;
