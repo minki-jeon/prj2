@@ -1,5 +1,6 @@
 package com.example.prj2.member.controller;
 
+import com.example.prj2.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("member")
 public class MemberController {
 
+    private final MemberService memberServ;
+
     /*
-        회원가입 FORM / GET
+        회원가입 양식 / GET
      */
     @GetMapping("signup")
     public String signupForm() {
@@ -20,10 +23,11 @@ public class MemberController {
     }
 
     /*
-        회원가입 Process / POST
+        회원가입 처리 / POST
      */
     @PostMapping("signup")
     public String signupProc() {
+        memberServ.create();
 
 
         return "redirect:/member/signup";
