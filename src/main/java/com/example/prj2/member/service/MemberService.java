@@ -31,7 +31,26 @@ public class MemberService {
         memberRepo.save(member);
     }
 
+    /*
+        회원목록 조회
+     */
     public List<MemberListInfo> list() {
         return memberRepo.findAllByOrderByCreatedAtDesc();
+    }
+
+    /*
+        회원정보 조회
+     */
+    public MemberFormDto detail(String id) {
+        // Entity to Dto
+        MemberFormDto dto = new MemberFormDto();
+        memberRepo.findById(id).ifPresent(member -> {
+            dto.setId(member.getId());
+            dto.setNickname(member.getNickname());
+            dto.setInfo(member.getInfo());
+            dto.setPassword(member.getPassword());
+        });
+
+        return dto;
     }
 }

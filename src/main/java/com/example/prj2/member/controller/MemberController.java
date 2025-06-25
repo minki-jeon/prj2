@@ -48,4 +48,18 @@ public class MemberController {
         model.addAttribute("memberList", resultList);
         return "member/list";
     }
+
+    /*
+        회원 상세 / GET
+     */
+    @GetMapping("detail")
+    public String detail(Model model, String id) {
+
+        MemberFormDto member = memberServ.detail(id);
+        model.addAttribute("member", member);
+
+        return "member/detail";
+    }
+
+
 }

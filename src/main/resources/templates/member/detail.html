@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/main::commHead('회원정보')}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav th:replace="~{layout/main::topNavbar(pageName)}"></nav>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col col-lg-6">
+            <!-- https://getbootstrap.com/docs/5.3/forms/form-control/ -->
+            <h2 class="mt-3 mb-3">회원 가입</h2>
+            <form th:action="@{/member/signup}" method="post">
+                <div class="mb-3">
+                    <label for="inputId" class="form-label">아이디</label>
+                    <input class="form-control" name="id" type="text" id="inputId" th:value="${member.id}" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="inputPw" class="form-label">암호</label>
+                    <input class="form-control" name="password" type="password" id="inputPw"
+                           th:value="${member.password}" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="inputNm" class="form-label">닉네임</label>
+                    <input class="form-control" name="nickname" type="text" id="inputNm" th:value="${member.nickname}"
+                           readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="textareaInfo" class="form-label">자기소개</label>
+                    <textarea class="form-control" name="info" id="textareaInfo" rows="3" th:text="${member.info}"
+                              readonly></textarea>
+                </div>
+                <!--                <div class="mb-3">-->
+                <!--                    <button class="btn btn-primary">가입</button>-->
+                <!--                </div>-->
+            </form>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="~{layout/main::commScript}"/>
+</body>
+</html>
