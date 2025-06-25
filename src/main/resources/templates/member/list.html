@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--div>h2+table>thead>tr>th*3^^tbody>tr>td*3-->
+<div>
+    <h2>회원 목록</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>아이디</th>
+            <th>암호</th>
+            <th>가입일자</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="member : ${memberList}">
+            <td th:text="${member.id}"></td>
+            <td th:text="${member.nickname}"></td>
+            <td th:text="${#temporals.format(member.createdAt, 'yyyy년 MM월 dd일')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
