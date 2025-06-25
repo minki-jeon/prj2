@@ -21,8 +21,9 @@
                 </thead>
                 <tbody>
                 <tr th:each="member : ${memberList}">
-                    <!-- TODO : id 상세페이지 링크 삽입 -->
-                    <td th:text="${member.id}"></td>
+                    <td>
+                        <a th:href="@{/member/detail(id=${member.id})}" th:text="${member.id}"></a>
+                    </td>
                     <td th:text="${member.nickname}"></td>
                     <td th:text="${#temporals.format(member.createdAt, 'yyyy년 MM월 dd일')}"></td>
                 </tr>
