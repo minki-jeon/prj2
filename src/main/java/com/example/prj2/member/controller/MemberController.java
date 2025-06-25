@@ -1,5 +1,6 @@
 package com.example.prj2.member.controller;
 
+import com.example.prj2.member.dto.MemberFormDto;
 import com.example.prj2.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,9 @@ public class MemberController {
         회원가입 처리 / POST
      */
     @PostMapping("signup")
-    public String signupProc() {
+    public String signupProc(MemberFormDto inputData) {
+        System.out.println(inputData);
+
         memberServ.create();
 
 
