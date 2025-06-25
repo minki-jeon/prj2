@@ -71,9 +71,11 @@ public class MemberService {
             member.setInfo(inputData.getInfo());
             memberRepo.save(member);
         });
-
     }
 
+    /*
+        비밀번호 변경
+     */
     public void changePassword(String id, String oldPassword, String newPassword) {
         // 대상 데이터 조회, 기존 암호 일치 확인 후, save(update)
         Member member = memberRepo.findById(id).get();
@@ -84,8 +86,21 @@ public class MemberService {
         } else {
             // TODO : 기존 암호가 일치하지 않을 때 처리
         }
-
     }
 
+    /*
+        회원 탈퇴
+     */
+    public void delete(String id, String password) {
+        // 대상 데이터 조회, 기존 암호 일치 확인 후, delete
+        Member member = memberRepo.findById(id).get();
+        String dbPassword = member.getPassword();
 
+        if (dbPassword.equals(password)) {
+            memberRepo.deleteById(id);
+        } else {
+            // TODO : 기존 암호가 일치하지 않을 때 처리
+        }
+
+    }
 }

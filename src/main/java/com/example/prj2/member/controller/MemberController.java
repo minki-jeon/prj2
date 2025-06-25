@@ -97,7 +97,16 @@ public class MemberController {
     }
 
 
+    /*
+        회원 탈퇴
+     */
     // TODO : 회원 탈퇴 delete
+    @PostMapping("delete")
+    public String delete(String id, String password) {
+        memberServ.delete(id, password);
+
+        return "redirect:/member/list";
+    }
 
 
     // TODO : 로그인 기능 + Session
