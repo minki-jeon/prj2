@@ -10,7 +10,7 @@
     <div class="row justify-content-center">
         <div class="col col-lg-6">
             <h2 class="mt-3 mb-3">회원정보 수정</h2>
-            <form th:action="@{/member/update}" method="post">
+            <form th:action="@{/member/update}" id="updateForm" method="post">
                 <div class="mb-3">
                     <label for="inputId" class="form-label">아이디</label>
                     <input class="form-control" name="id" type="text" id="inputId" th:value="${member.id}" readonly>
@@ -25,16 +25,46 @@
                               rows="3"></textarea>
                 </div>
 
-                <div class="mb-3">
-                    <button class="btn btn-primary">저장</button>
-                    <button class="btn btn-warning">암호 변경</button>
-                </div>
-
             </form>
+
+            <div class="mb-3">
+                <button class="btn btn-primary"
+                        data-bs-toggle="modal" data-bs-target="#updateModal">
+                    저장
+                </button>
+                <button class="btn btn-warning">암호 변경</button>
+            </div>
+
         </div>
     </div>
 </div>
 
+<!-- TODO : 암호 변경 처리 - Modal(Static Backdrop)  -->
+<!-- https://getbootstrap.com/docs/5.3/components/modal/#static-backdrop -->
+
+
+<!-- 저장 버튼 클릭 시 암호 확인 - Modal(Live Demo) -->
+<!-- https://getbootstrap.com/docs/5.3/components/modal/#live-demo -->
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="updateModalLabel">정보 수정 확인</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!--                label.form-label+input:password.form-control-->
+                <label for="inputPw" class="form-label">암호</label>
+                <input type="password" name="password" id="inputPw" class="form-control"
+                       form="updateForm" placeholder="본인의 암호 입력">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="submit" form="updateForm" class="btn btn-primary">저장</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <th:block th:replace="~{layout/main::commScript}"/>
 </body>
