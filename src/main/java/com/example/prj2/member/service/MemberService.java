@@ -35,14 +35,14 @@ public class MemberService {
     /*
         회원목록 조회
      */
-    public List<MemberListInfo> list() {
+    public List<MemberListInfo> getList() {
         return memberRepo.findAllByOrderByCreatedAtDesc();
     }
 
     /*
         회원정보 조회
      */
-    public MemberDetailDto detail(String id) {
+    public MemberDetailDto getDetail(String id) {
         // Entity to Dto
         MemberDetailDto dto = new MemberDetailDto();
         memberRepo.findById(id).ifPresent(member -> {

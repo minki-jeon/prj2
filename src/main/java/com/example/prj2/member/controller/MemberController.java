@@ -44,7 +44,7 @@ public class MemberController {
      */
     @GetMapping("list")
     public String list(Model model) {
-        List<MemberListInfo> resultList = memberServ.list();
+        List<MemberListInfo> resultList = memberServ.getList();
         System.out.println(resultList);
         model.addAttribute("memberList", resultList);
         return "member/list";
@@ -55,12 +55,20 @@ public class MemberController {
      */
     @GetMapping("detail")
     public String detail(Model model, String id) {
-
-        MemberDetailDto member = memberServ.detail(id);
+        MemberDetailDto member = memberServ.getDetail(id);
         model.addAttribute("member", member);
 
         return "member/detail";
     }
 
+    /*
+        회원 수정 / GET
+     */
+    @GetMapping("update")
+    public String updateForm(Model model, String id) {
+        MemberDetailDto member = memberServ.getDetail(id);
+        model.addAttribute("member", member);
 
+        return "member/update";
+    }
 }

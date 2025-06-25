@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/main::commHead('회원정보 수정')}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav th:replace="~{layout/main::topNavbar(_)}"></nav>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col col-lg-6">
+            <h2 class="mt-3 mb-3">회원정보 수정</h2>
+            <form th:action="@{/member/update}" method="post">
+                <div class="mb-3">
+                    <label for="inputId" class="form-label">아이디</label>
+                    <input class="form-control" name="id" type="text" id="inputId" th:value="${member.id}">
+                </div>
+                <div class="mb-3">
+                    <label for="inputNm" class="form-label">닉네임</label>
+                    <input class="form-control" name="nickname" type="text" id="inputNm" th:value="${member.nickname}">
+                </div>
+                <div class="mb-3">
+                    <label for="textareaInfo" class="form-label">자기소개</label>
+                    <textarea th:text="${member.info}" class="form-control" name="info" id="textareaInfo"
+                              rows="3"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <button class="btn btn-primary">저장</button>
+                    <button class="btn btn-warning">암호 변경</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<th:block th:replace="~{layout/main::commScript}"/>
+</body>
+</html>
