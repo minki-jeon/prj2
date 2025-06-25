@@ -9,6 +9,7 @@ CREATE TABLE member
     info       VARCHAR(10000) NULL,
     created_at DATETIME       NOT NULL DEFAULT NOW()
 );
+## TODO : birth_date, gender, grade
 
 CREATE TABLE board
 (
