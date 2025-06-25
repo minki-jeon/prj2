@@ -28,9 +28,7 @@ public class MemberController {
      */
     @PostMapping("signup")
     public String signupProc(MemberFormDto inputData) {
-        System.out.println(inputData);
-
-        memberServ.create();
+        memberServ.create(inputData);
 
 
         return "redirect:/member/signup";
