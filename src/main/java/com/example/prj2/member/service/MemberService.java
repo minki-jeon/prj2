@@ -32,6 +32,6 @@ public class MemberService {
     }
 
     public List<MemberListInfo> list() {
-        return memberRepo.findAllBy();
+        return memberRepo.findAllByOrderByCreatedAtDesc();
     }
 }
