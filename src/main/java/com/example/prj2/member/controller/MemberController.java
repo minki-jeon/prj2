@@ -87,6 +87,14 @@ public class MemberController {
     /*
         암호 변경 처리 / POST
      */
+    @PostMapping("changePw")
+    public String changePassword(String id, String oldPassword, String newPassword,
+                                 RedirectAttributes rttr) {
+
+        memberServ.changePassword(id, oldPassword, newPassword);
+        rttr.addAttribute("id", id);
+        return "redirect:/member/detail";
+    }
     // TODO changePassword
 
 

@@ -60,13 +60,26 @@ public class MemberService {
         회원정보 수정
      */
     public void update(MemberFormDto inputData) {
-        // 수정(update) 대상 데이터 조회
+        // 수정(update) 대상 데이터 조회 후, save(update)
         memberRepo.findById(inputData.getId()).ifPresent(member -> {
             member.setId(inputData.getId());
             member.setNickname(inputData.getNickname());
             member.setInfo(inputData.getInfo());
             memberRepo.save(member);
         });
+
+    }
+
+    public void changePassword(String id, String oldPassword, String newPassword) {
+        // 대상 데이터 조회, 기존 암호 일치 확인 후, save(update)
+        Member member = memberRepo.findById(id).get();
+        String dbPassword = member.getPassword();
+        if (dbPassword.equals(oldPassword)) {
+            member.setPassword(newPassword);
+            memberRepo.save(member);
+        } else {
+            // TODO : 기존 암호가 일치하지 않을 때 처리
+        }
 
     }
 }

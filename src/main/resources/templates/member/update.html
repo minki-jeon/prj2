@@ -32,16 +32,48 @@
                         data-bs-toggle="modal" data-bs-target="#updateModal">
                     저장
                 </button>
-                <button class="btn btn-warning">암호 변경</button>
+                <button class="btn btn-warning"
+                        data-bs-toggle="modal" data-bs-target="#changePwModal">
+                    암호 변경
+                </button>
             </div>
 
         </div>
     </div>
 </div>
 
-<!-- TODO : 암호 변경 처리 - Modal(Static Backdrop)  -->
+<!-- 암호 변경 처리 - Modal(Static Backdrop)  -->
 <!-- https://getbootstrap.com/docs/5.3/components/modal/#static-backdrop -->
+<div class="modal fade" id="changePwModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="changePwModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="changePwModalLabel">암호 변경</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/member/changePw}" id="changePwForm" method="post">
+                    <input type="hidden" name="id" th:value="${member.id}">
+                    <!--                    (label.form-label+input:password.form-control)*2-->
+                    <div>
+                        <label for="oldPw" class="form-label">기존 암호</label>
+                        <input type="password" name="oldPassword" id="oldPw" class="form-control">
+                    </div>
+                    <div>
+                        <label for="newPw" class="form-label">새 암호</label>
+                        <input type="password" name="newPassword" id="newPw" class="form-control">
+                    </div>
 
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="submit" form="changePwForm" class="btn btn-primary">암호 변경</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- 저장 버튼 클릭 시 암호 확인 - Modal(Live Demo) -->
 <!-- https://getbootstrap.com/docs/5.3/components/modal/#live-demo -->
