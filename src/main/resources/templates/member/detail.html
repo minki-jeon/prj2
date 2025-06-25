@@ -12,32 +12,57 @@
         <div class="col col-lg-6">
             <!-- https://getbootstrap.com/docs/5.3/forms/form-control/ -->
             <h2 class="mt-3 mb-3">회원 정보</h2>
-            <form th:action="@{/member/signup}" method="post">
-                <div class="mb-3">
-                    <label for="inputId" class="form-label">아이디</label>
-                    <input class="form-control" name="id" type="text" id="inputId" th:value="${member.id}" readonly>
-                </div>
-                <div class="mb-3">
-                    <label for="inputNm" class="form-label">닉네임</label>
-                    <input class="form-control" name="nickname" type="text" id="inputNm" th:value="${member.nickname}"
-                           readonly>
-                </div>
-                <div class="mb-3">
-                    <label for="textareaInfo" class="form-label">자기소개</label>
-                    <textarea class="form-control" name="info" id="textareaInfo" rows="3" th:text="${member.info}"
-                              readonly></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="inputCreated" class="form-label">가입일시</label>
-                    <input class="form-control" name="createdAt" type="text" id="inputCreated"
-                           th:value="${#temporals.format(member.createdAt, 'yyyy년 MM월 dd일 HH:mm:ss')}"
-                           readonly>
-                </div>
-                <div class="mb-3">
-                    <a th:href="@{/member/update(id=${member.id})}" class="btn btn-secondary">수정</a>
-                    <button class="btn btn-danger">탈퇴</button>
-                </div>
-            </form>
+            <div class="mb-3">
+                <label for="inputId" class="form-label">아이디</label>
+                <input class="form-control" name="id" type="text" id="inputId" th:value="${member.id}" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="inputNm" class="form-label">닉네임</label>
+                <input class="form-control" name="nickname" type="text" id="inputNm" th:value="${member.nickname}"
+                       readonly>
+            </div>
+            <div class="mb-3">
+                <label for="textareaInfo" class="form-label">자기소개</label>
+                <textarea class="form-control" name="info" id="textareaInfo" rows="3" th:text="${member.info}"
+                          readonly></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="inputCreated" class="form-label">가입일시</label>
+                <input class="form-control" name="createdAt" type="text" id="inputCreated"
+                       th:value="${#temporals.format(member.createdAt, 'yyyy년 MM월 dd일 HH:mm:ss')}"
+                       readonly>
+            </div>
+            <div class="mb-3">
+                <a th:href="@{/member/update(id=${member.id})}" class="btn btn-secondary">수정</a>
+                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">탈퇴</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 탈퇴 전 암호 확인 -->
+<div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">탈퇴 확인</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/member/delete}" id="deleteForm" method="post">
+                    <input type="hidden" name="id" th:value="${member.id}">
+                    <div>
+                        <label for="pw" class="form-label">암호</label>
+                        <input type="password" name="password" id="pw" class="form-control"
+                               placeholder="본인의 암호 입력">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="submit" form="deleteForm" class="btn btn-primary">탈퇴</button>
+            </div>
         </div>
     </div>
 </div>
