@@ -98,9 +98,8 @@ public class MemberController {
 
 
     /*
-        회원 탈퇴
+        회원 탈퇴 / POST
      */
-    // TODO : 회원 탈퇴 delete
     @PostMapping("delete")
     public String delete(String id, String password) {
         memberServ.delete(id, password);
