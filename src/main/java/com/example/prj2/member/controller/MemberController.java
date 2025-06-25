@@ -37,7 +37,7 @@ public class MemberController {
         memberServ.create(inputData);
 
 
-        return "redirect:/member/signup";
+        return "redirect:/member/list";
     }
 
     /*
@@ -81,8 +81,13 @@ public class MemberController {
         memberServ.update(inputData);
 
         rttr.addAttribute("id", inputData.getId());
-        return "redirect:/member/update";
+        return "redirect:/member/detail";
     }
+
+    /*
+        암호 변경 처리 / POST
+     */
+    // TODO changePassword
 
 
 }
