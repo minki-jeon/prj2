@@ -22,6 +22,8 @@ public class MemberService {
         회원가입 처리
      */
     public void create(MemberFormDto inputData) {
+        // TODO : ID중복체크 + 닉네임중복체크
+
         // DTO to Entity
         Member member = new Member();
         member.setId(inputData.getId());
@@ -62,6 +64,8 @@ public class MemberService {
     public void update(MemberFormDto inputData) {
         // 수정(update) 대상 데이터 조회 후, save(update)
         memberRepo.findById(inputData.getId()).ifPresent(member -> {
+            // TODO : 암호가 일치하지 않을 때 처리
+
             member.setId(inputData.getId());
             member.setNickname(inputData.getNickname());
             member.setInfo(inputData.getInfo());
@@ -82,4 +86,6 @@ public class MemberService {
         }
 
     }
+
+
 }

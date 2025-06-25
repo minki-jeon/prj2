@@ -95,7 +95,12 @@ public class MemberController {
         rttr.addAttribute("id", id);
         return "redirect:/member/detail";
     }
-    // TODO changePassword
+
+
+    // TODO : 회원 탈퇴 delete
+
+
+    // TODO : 로그인 기능 + Session
 
 
 }
