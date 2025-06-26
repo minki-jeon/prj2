@@ -27,24 +27,45 @@
                     <li class="nav-item">
                         <a class="nav-link"
                            th:href="@{/member/list}"
-                           th:classappend="${pageName == 'list' ? 'active' : ''}">회원목록
+                           th:classappend="${pageName == 'memberList' ? 'active' : ''}">회원목록
                         </a>
                     </li>
-
+                    <!-- // login 페이지로 이동
                     <li class="nav-item">
                         <a class="nav-link"
                            th:href="@{/member/signup}"
                            th:classappend="${pageName == 'signup' ? 'active' : ''}">회원가입
                         </a>
                     </li>
-
-                    <li class="nav-item">
+                    -->
+                    <li class="nav-item" th:if="${session.accessUser == null}">
                         <a class="nav-link"
                            th:href="@{/member/login}"
                            th:classappend="${pageName == 'login' ? 'active' : ''}">로그인
                         </a>
                     </li>
 
+
+                    <li class="nav-item" th:if="${session.accessUser != null}">
+                        <a class="nav-link"
+                           th:href="@{/member/logout}">로그아웃
+                        </a>
+                    </li>
+
+                    <li class="nav-item" th:if="${session.accessUser == null}">
+                        <a class="nav-link"
+                           th:href="@{/member/login}"
+                           th:classappend="${pageName == 'login' ? 'active' : ''}">Guest
+                        </a>
+                    </li>
+
+                    <li class="nav-item" th:if="${session.accessUser != null}">
+                        <a class="nav-link"
+                           th:href="@{/member/detail(id=${session.accessUser.id})}"
+                           th:classappend="${pageName == 'memberDetail' ? 'active' : ''}"
+                           th:text="${session.accessUser.id}">Guest
+                        </a>
+                    </li>
 
                 </ul>
 
