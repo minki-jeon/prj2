@@ -22,7 +22,7 @@ public class MemberController {
     private final MemberService memberServ;
 
     /*
-        회원가입 양식 / GET
+        회원가입 / 입력 폼 / GET
      */
     @GetMapping("signup")
     public String signupForm() {
@@ -30,7 +30,7 @@ public class MemberController {
     }
 
     /*
-        회원가입 처리 / POST
+        회원가입 / 처리 / POST
      */
     @PostMapping("signup")
     public String signupProc(MemberFormDto inputData) {
@@ -41,10 +41,10 @@ public class MemberController {
     }
 
     /*
-        회원 목록 / GET
+        회원 목록 / 화면 / GET
      */
     @GetMapping("list")
-    public String list(Model model) {
+    public String listView(Model model) {
         List<MemberListInfo> resultList = memberServ.getList();
         System.out.println(resultList);
         model.addAttribute("memberList", resultList);
@@ -52,10 +52,10 @@ public class MemberController {
     }
 
     /*
-        회원 상세 / GET
+        회원 상세 / 화면 / GET
      */
     @GetMapping("detail")
-    public String detail(Model model, String id) {
+    public String detailView(Model model, String id) {
         MemberDetailDto member = memberServ.getDetail(id);
         model.addAttribute("member", member);
 
@@ -63,7 +63,7 @@ public class MemberController {
     }
 
     /*
-        회원 수정 / GET
+        회원 수정 / 입력 폼 / GET
      */
     @GetMapping("update")
     public String updateForm(Model model, String id) {
@@ -74,7 +74,7 @@ public class MemberController {
     }
 
     /*
-        회원 수정 처리 / POST
+        회원 수정 / 처리 / POST
      */
     @PostMapping("update")
     public String updateProc(MemberFormDto inputData, RedirectAttributes rttr) {
@@ -85,7 +85,7 @@ public class MemberController {
     }
 
     /*
-        암호 변경 처리 / POST
+        암호 변경 / 처리 / POST
      */
     @PostMapping("changePw")
     public String changePassword(String id, String oldPassword, String newPassword,
@@ -98,10 +98,10 @@ public class MemberController {
 
 
     /*
-        회원 탈퇴 / POST
+        회원 탈퇴 / 처리 / POST
      */
     @PostMapping("delete")
-    public String delete(String id, String password) {
+    public String deleteProc(String id, String password) {
         memberServ.delete(id, password);
 
         return "redirect:/member/list";
@@ -109,6 +109,13 @@ public class MemberController {
 
 
     // TODO : 로그인 기능 + Session
+    /*
+        회원 로그인 / 입력 폼 / GET
+     */
+    @GetMapping("login")
+    public String loginForm() {
+        return "member/login";
+    }
 
 
 }
