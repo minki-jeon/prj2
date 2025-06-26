@@ -47,7 +47,7 @@ public class MemberController {
     @GetMapping("list")
     public String listView(Model model) {
         List<MemberListInfo> resultList = memberServ.getList();
-        System.out.println(resultList);
+
         model.addAttribute("memberList", resultList);
         return "member/list";
     }
