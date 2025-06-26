@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/main::commHead('글 상세')}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav th:replace="~{layout/main::topNavbar(_)}"></nav>
+<!--
+Seq / Title
+CreatedAt / Writer
+content
+-->
+<!--.container>.row.justify-content-center>.col.col-lg-6>.mb-3*4-->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col col-lg-6">
+            <h2 class="mt-3 mb-3">글 상세</h2>
+            <div class="mb-3">
+                게시글
+                <label th:text="${board.seq}" class="form-label"></label>
+                번
+                <input th:value="${board.title}" id="inputId" type="text" class="form-control">
+            </div>
+            <div class="mb-3 row">
+                <div class="col">
+                    <label for="inputCreatedAt" class="form-label">작성일시</label>
+                    <input id="inputCreatedAt" th:value="${#temporals.format(board.createdAt, 'yyyy-MM-dd hh:mm:ss')}"
+                           type="text" class="form-control">
+                </div>
+                <div class="col">
+                    <label for="inputWriter" class="form-label">작성자</label>
+                    <input id="inputWriter" th:value="${board.writer}" type="text" class="form-control">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="textareaContent" class="form-label">내용</label>
+                <textarea id="textareaContent" th:text="${board.content}" cols="30" rows="10" class="form-control"/>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary">수정</button>
+                <button class="btn btn-danger">삭제</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<th:block th:replace="~{layout/main::commScript}"/>
+</body>
+</html>

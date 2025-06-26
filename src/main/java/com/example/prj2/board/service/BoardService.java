@@ -1,5 +1,6 @@
 package com.example.prj2.board.service;
 
+import com.example.prj2.board.dto.BoardDetailDto;
 import com.example.prj2.board.dto.BoardFormDto;
 import com.example.prj2.board.dto.BoardListInfo;
 import com.example.prj2.board.entity.Board;
@@ -41,5 +42,18 @@ public class BoardService {
         List<BoardListInfo> resultList = boardRepo.findAllByOrderBySeqDesc();
 
         return resultList;
+    }
+
+    public BoardDetailDto getDetail(Integer seq) {
+        Board board = boardRepo.findById(seq).get();
+        BoardDetailDto dto = new BoardDetailDto();
+        dto.setSeq(board.getSeq());
+        dto.setTitle(board.getTitle());
+        dto.setContent(board.getContent());
+        dto.setWriter(board.getWriter());
+        dto.setCreatedAt(board.getCreatedAt());
+        dto.setId(board.getId().toString());
+
+        return dto;
     }
 }

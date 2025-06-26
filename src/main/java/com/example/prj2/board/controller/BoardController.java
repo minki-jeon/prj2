@@ -1,5 +1,6 @@
 package com.example.prj2.board.controller;
 
+import com.example.prj2.board.dto.BoardDetailDto;
 import com.example.prj2.board.dto.BoardFormDto;
 import com.example.prj2.board.dto.BoardListInfo;
 import com.example.prj2.board.service.BoardService;
@@ -56,8 +57,8 @@ public class BoardController {
      */
     @GetMapping("detail")
     public String detailView(Model model, Integer seq) {
-
-        // TODO
+        BoardDetailDto result = boardServ.getDetail(seq);
+        model.addAttribute("board", result);
 
         return "board/detail";
     }
