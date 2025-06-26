@@ -120,7 +120,6 @@ public class MemberController {
      */
     @PostMapping("login")
     public String loginProc(String id, String password, HttpSession session, RedirectAttributes rttr) {
-
         boolean access = memberServ.login(id, password, session);
 
         if (access) {
@@ -129,6 +128,16 @@ public class MemberController {
             rttr.addAttribute("id", id);
             return "redirect:/member/login";
         }
-
     }
+
+    /*
+        회원 로그아웃 / 처리
+     */
+    @RequestMapping("logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+
+        return "redirect:/member/list";
+    }
+
 }
