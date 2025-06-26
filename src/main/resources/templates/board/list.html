@@ -24,7 +24,9 @@
                 <tbody>
                 <tr th:each="board : ${boardList}">
                     <td th:text="${board.seq}"></td>
-                    <td th:text="${board.title}"></td>
+                    <td>
+                        <a th:href="@{/board/detail(seq=${board.seq})}" th:text="${board.title}"></a>
+                    </td>
                     <td th:text="${board.writer}"></td>
                     <td th:text="${#temporals.format(board.createdAt, 'yyyy년 MM월 dd일')}"></td>
                 </tr>
