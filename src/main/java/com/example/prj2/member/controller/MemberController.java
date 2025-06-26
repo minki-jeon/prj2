@@ -4,6 +4,7 @@ import com.example.prj2.member.dto.MemberDetailDto;
 import com.example.prj2.member.dto.MemberFormDto;
 import com.example.prj2.member.dto.MemberListInfo;
 import com.example.prj2.member.service.MemberService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -96,7 +97,6 @@ public class MemberController {
         return "redirect:/member/detail";
     }
 
-
     /*
         회원 탈퇴 / 처리 / POST
      */
@@ -107,8 +107,6 @@ public class MemberController {
         return "redirect:/member/list";
     }
 
-
-    // TODO : 로그인 기능 + Session
     /*
         회원 로그인 / 입력 폼 / GET
      */
@@ -117,5 +115,20 @@ public class MemberController {
         return "member/login";
     }
 
+    /*
+        회원 로그인 / 처리 / POST
+     */
+    @PostMapping("login")
+    public String loginProc(String id, String password, HttpSession session, RedirectAttributes rttr) {
 
+        boolean access = memberServ.login(id, password, session);
+
+        if (access) {
+            return "redirect:/member/list";
+        } else {
+            rttr.addAttribute("id", id);
+            return "redirect:/member/login";
+        }
+
+    }
 }

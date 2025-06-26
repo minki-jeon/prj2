@@ -5,11 +5,13 @@ import com.example.prj2.member.dto.MemberFormDto;
 import com.example.prj2.member.dto.MemberListInfo;
 import com.example.prj2.member.entity.Member;
 import com.example.prj2.member.repository.MemberRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -59,7 +61,7 @@ public class MemberService {
     }
 
     /*
-        회원정보 수정
+        회원정보 수정 처리
      */
     public void update(MemberFormDto inputData) {
         // 수정(update) 대상 데이터 조회 후, save(update)
@@ -74,7 +76,7 @@ public class MemberService {
     }
 
     /*
-        비밀번호 변경
+        비밀번호 변경 처리
      */
     public void changePassword(String id, String oldPassword, String newPassword) {
         // 대상 데이터 조회, 기존 암호 일치 확인 후, save(update)
@@ -89,7 +91,7 @@ public class MemberService {
     }
 
     /*
-        회원 탈퇴
+        회원 탈퇴 처리
      */
     public void delete(String id, String password) {
         // 대상 데이터 조회, 기존 암호 일치 확인 후, delete
@@ -102,5 +104,29 @@ public class MemberService {
             // TODO : 기존 암호가 일치하지 않을 때 처리
         }
 
+    }
+
+    /*
+        로그인 처리
+     */
+    public boolean login(String id, String password, HttpSession session) {
+
+        Optional<Member> db = memberRepo.findById(id);
+        if (db.isPresent()) {
+            Member member = db.get();
+            String dbPassword = member.getPassword();
+            if (dbPassword.equals(password)) {
+                // 로그인 사용자 정보 (DTO) 세션 등록
+                MemberDetailDto dto = new MemberDetailDto();
+                dto.setId(member.getId());
+                dto.setNickname(member.getNickname());
+                dto.setInfo(member.getInfo());
+                dto.setCreatedAt(member.getCreatedAt());
+                session.setAttribute("accessUser", dto);
+                return true;
+            }
+        }
+
+        return false;
     }
 }
