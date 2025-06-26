@@ -18,7 +18,7 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "seq", nullable = false)
-    private Integer id;
+    private Integer seq;
 
     @Column(name = "title", nullable = false, length = 500)
     private String title;
@@ -31,10 +31,10 @@ public class Board {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id", nullable = false)
-    private Member id1;
+    private Member id;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
 }
