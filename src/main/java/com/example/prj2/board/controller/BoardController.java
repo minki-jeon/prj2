@@ -44,7 +44,22 @@ public class BoardController {
     public String listView(Model model) {
         List<BoardListInfo> resultList = boardServ.getList();
 
+        // TODO : Paging
+        // TODO : Searching
+
         model.addAttribute("boardList", resultList);
         return "board/list";
     }
+
+    /*
+        게시글 상세 조회 / 화면 / GET
+     */
+    @GetMapping("detail")
+    public String detailView(Model model, Integer seq) {
+
+        // TODO
+
+        return "board/detail";
+    }
+
 }
