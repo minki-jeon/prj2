@@ -38,7 +38,7 @@ public class MemberController {
         memberServ.create(inputData);
 
 
-        return "redirect:/member/list";
+        return "redirect:/board/list";
     }
 
     /*
@@ -104,7 +104,7 @@ public class MemberController {
     public String deleteProc(String id, String password) {
         memberServ.delete(id, password);
 
-        return "redirect:/member/list";
+        return "redirect:/board/list";
     }
 
     /*
@@ -123,7 +123,7 @@ public class MemberController {
         boolean access = memberServ.login(id, password, session);
 
         if (access) {
-            return "redirect:/member/list";
+            return "redirect:/board/list";
         } else {
             rttr.addAttribute("id", id);
             return "redirect:/member/login";
@@ -137,7 +137,7 @@ public class MemberController {
     public String logout(HttpSession session) {
         session.invalidate();
 
-        return "redirect:/member/list";
+        return "redirect:/board/list";
     }
 
 }
