@@ -85,5 +85,15 @@ public class BoardController {
         return "redirect:/board/detail";
     }
 
+    /*
+        게시글 삭제 / 처리 / POST
+     */
+    @PostMapping("delete")
+    public String deleteProc(Integer seq) {
+        boardServ.delete(seq);
+
+
+        return "redirect:/board/list";
+    }
 
 }

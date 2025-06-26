@@ -75,4 +75,11 @@ public class BoardService {
             boardRepo.save(board);
         });
     }
+
+    /*
+        게시글 삭제 처리
+     */
+    public void delete(Integer seq) {
+        boardRepo.deleteById(seq);
+    }
 }

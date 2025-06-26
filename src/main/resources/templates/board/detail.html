@@ -40,10 +40,16 @@ content
             </div>
             <div class="mb-3">
                 <a th:href="@{/board/update(seq=${board.seq})}" class="btn btn-primary">수정</a>
-                <button class="btn btn-danger">삭제</button>
+                <button form="deleteForm" class="btn btn-danger">삭제</button>
             </div>
         </div>
     </div>
+</div>
+
+<div class="d-none">
+    <form th:action="@{/board/delete}" id="deleteForm" method="post">
+        <input type="text" name="seq" th:value="${board.seq}">
+    </form>
 </div>
 
 
