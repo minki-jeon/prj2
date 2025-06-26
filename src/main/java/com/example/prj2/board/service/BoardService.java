@@ -37,13 +37,18 @@ public class BoardService {
         boardRepo.save(board);
     }
 
-
+    /*
+        게시글 목록 조회
+     */
     public List<BoardListInfo> getList() {
         List<BoardListInfo> resultList = boardRepo.findAllByOrderBySeqDesc();
 
         return resultList;
     }
 
+    /*
+        게시글 상세 조회
+     */
     public BoardDetailDto getDetail(Integer seq) {
         Board board = boardRepo.findById(seq).get();
         BoardDetailDto dto = new BoardDetailDto();
@@ -55,5 +60,19 @@ public class BoardService {
         dto.setId(board.getId().toString());
 
         return dto;
+    }
+
+    /*
+        게시글 수정 처리
+     */
+    public void update(BoardDetailDto inputData) {
+        Member member = memberRepo.findById(inputData.getWriter()).get();
+
+        boardRepo.findById(inputData.getSeq()).ifPresent(board -> {
+            board.setTitle(inputData.getTitle());
+            board.setContent(inputData.getContent());
+            board.setId(member);
+            boardRepo.save(board);
+        });
     }
 }

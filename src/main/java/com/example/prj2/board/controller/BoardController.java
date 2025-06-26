@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class BoardController {
     public String writeProc(BoardFormDto inputData) {
         boardServ.write(inputData);
 
-        return "board/write";
+        return "redirect:/board/write";
     }
 
     /*
@@ -62,5 +63,27 @@ public class BoardController {
 
         return "board/detail";
     }
+
+    /*
+        게시글 수정 / 입력 폼 / GET
+     */
+    @GetMapping("update")
+    public String updateForm(Model model, Integer seq) {
+        BoardDetailDto result = boardServ.getDetail(seq);
+        model.addAttribute("board", result);
+        return "board/update";
+    }
+
+    /*
+        게시글 수정 / 처리 / POST
+     */
+    @PostMapping("update")
+    public String updateProc(BoardDetailDto inputData, RedirectAttributes rttr) {
+        boardServ.update(inputData);
+        rttr.addAttribute("seq", inputData.getSeq());
+
+        return "redirect:/board/detail";
+    }
+
 
 }
