@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/main::commHead('게시글 목록')}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav th:replace="~{layout/main::topNavbar('boardList')}"></nav>
+
+<!--.container>.row.justify-content-center>.col.col-lg-6>h2.mt-3.mb-3{게시글 목록}+table>thead>tr>th*4^^tbody>tr>td*4-->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col col-lg-6">
+            <h2 class="mt-3 mb-3">게시글 목록</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>등록일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="board : ${boardList}">
+                    <td th:text="${board.seq}"></td>
+                    <td th:text="${board.title}"></td>
+                    <td th:text="${board.writer}"></td>
+                    <td th:text="${#temporals.format(board.createdAt, 'yyyy년 MM월 dd일')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="~{layout/main::commScript}"/>
+</body>
+</html>

@@ -1,12 +1,16 @@
 package com.example.prj2.board.controller;
 
 import com.example.prj2.board.dto.BoardFormDto;
+import com.example.prj2.board.dto.BoardListInfo;
 import com.example.prj2.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,5 +35,16 @@ public class BoardController {
         boardServ.write(inputData);
 
         return "board/write";
+    }
+
+    /*
+        게시글 목록 / 화면 / GET
+     */
+    @GetMapping("list")
+    public String listView(Model model) {
+        List<BoardListInfo> resultList = boardServ.getList();
+
+        model.addAttribute("boardList", resultList);
+        return "board/list";
     }
 }

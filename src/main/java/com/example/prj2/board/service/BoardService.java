@@ -1,6 +1,7 @@
 package com.example.prj2.board.service;
 
 import com.example.prj2.board.dto.BoardFormDto;
+import com.example.prj2.board.dto.BoardListInfo;
 import com.example.prj2.board.entity.Board;
 import com.example.prj2.board.repository.BoardRepository;
 import com.example.prj2.member.entity.Member;
@@ -8,6 +9,8 @@ import com.example.prj2.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -34,4 +37,9 @@ public class BoardService {
     }
 
 
+    public List<BoardListInfo> getList() {
+        List<BoardListInfo> resultList = boardRepo.findAllByOrderBySeqDesc();
+
+        return resultList;
+    }
 }
