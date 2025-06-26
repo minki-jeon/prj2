@@ -24,6 +24,10 @@
                 </div>
                 <div class="mb-3">
                     <button class="btn btn-primary">로그인</button>
+                    <a class="btn btn-secondary"
+                       th:href="@{/member/signup}"
+                       th:classappend="${pageName == 'signup' ? 'active' : ''}">회원가입
+                    </a>
                 </div>
             </form>
         </div>
