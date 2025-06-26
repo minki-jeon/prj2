@@ -8,10 +8,14 @@ import com.example.prj2.board.repository.BoardRepository;
 import com.example.prj2.member.entity.Member;
 import com.example.prj2.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -40,10 +44,29 @@ public class BoardService {
     /*
         게시글 목록 조회
      */
-    public List<BoardListInfo> getList() {
-        List<BoardListInfo> resultList = boardRepo.findAllByOrderBySeqDesc();
+    public Map<String, Object> getList(Integer page) {
+        int pageSize = 10;
 
-        return resultList;
+        Page<BoardListInfo> boardPage = boardRepo.findAllBy(
+                PageRequest.of(page - 1, pageSize, Sort.by("seq").descending())
+        );
+        List<BoardListInfo> boardList = boardPage.getContent();
+
+        Integer totalPage = boardPage.getTotalPages();
+
+        Integer rightPageNo = ((page - 1) / 10 + 1) * 10;
+        Integer leftPageNo = rightPageNo - 9;
+        rightPageNo = Math.min(rightPageNo, totalPage);
+
+        Map<String, Object> resultMap = Map.of(
+                "boardList", boardList,
+                "totalPageCount", totalPage,
+                "totalElements", boardPage.getTotalElements(),
+                "rightPageNumber", rightPageNo,
+                "leftPageNumber", leftPageNo,
+                "currentPage", page);
+
+        return resultMap;
     }
 
     /*

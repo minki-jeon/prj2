@@ -33,6 +33,36 @@
                 </tbody>
             </table>
 
+            <!-- https://getbootstrap.com/docs/5.3/components/pagination/#working-with-icons -->
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item"
+                        th:classappend="${leftPageNumber > 10 ? '' : 'disabled'}">
+                        <a class="page-link"
+                           th:href="@{/board/list(page=${leftPageNumber - 10})}"
+                           aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li th:each="pageNumber : ${#numbers.sequence(leftPageNumber, rightPageNumber)}"
+                        class="page-item"
+                        th:classappend="${currentPage == pageNumber ? 'active' : ''}">
+                        <a th:text="${pageNumber}"
+                           class="page-link"
+                           th:href="@{/board/list(page=${pageNumber})}">1
+                        </a>
+                    </li>
+                    <li class="page-item"
+                        th:classappend="${(rightPageNumber + 1) <= totalPageCount ? '' : 'disabled'}">
+                        <a class="page-link"
+                           th:href="@{/board/list(page=${rightPageNumber + 1})}"
+                           aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
             <div class="mb-3">
                 <a th:href="@{/board/write}" class="btn btn-primary">글작성</a>
             </div>
