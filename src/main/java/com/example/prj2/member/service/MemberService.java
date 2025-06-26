@@ -7,10 +7,14 @@ import com.example.prj2.member.entity.Member;
 import com.example.prj2.member.repository.MemberRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -39,8 +43,29 @@ public class MemberService {
     /*
         회원목록 조회
      */
-    public List<MemberListInfo> getList() {
-        return memberRepo.findAllByOrderByCreatedAtDesc();
+    public Map<String, Object> getList(Integer page) {
+        int pageSize = 10;
+
+        Page<MemberListInfo> memberPage = memberRepo.findAllBy(
+                PageRequest.of(page - 1, pageSize, Sort.by("id").descending())
+        );
+        List<MemberListInfo> memberList = memberPage.getContent();
+
+        Integer totalPage = memberPage.getTotalPages();
+
+        Integer rightPageNo = ((page - 1) / 10 + 1) * 10;
+        Integer leftPageNo = rightPageNo - 9;
+        rightPageNo = Math.min(rightPageNo, totalPage);
+
+        Map<String, Object> resultMap = Map.of(
+                "memberList", memberList,
+                "totalPageCount", totalPage,
+                "totalElements", memberPage.getTotalElements(),
+                "rightPageNumber", rightPageNo,
+                "leftPageNumber", leftPageNo,
+                "currentPage", page);
+
+        return resultMap;
     }
 
     /*

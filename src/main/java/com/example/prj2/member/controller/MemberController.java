@@ -11,9 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -45,10 +47,11 @@ public class MemberController {
         회원 목록 / 화면 / GET
      */
     @GetMapping("list")
-    public String listView(Model model) {
-        List<MemberListInfo> resultList = memberServ.getList();
+    public String listView(Model model,
+                           @RequestParam(defaultValue = "1") Integer page) {
+        Map<String, Object> resultMap = memberServ.getList(page);
 
-        model.addAttribute("memberList", resultList);
+        model.addAllAttributes(resultMap);
         return "member/list";
     }
 
