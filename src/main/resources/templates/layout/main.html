@@ -63,7 +63,7 @@
                         <a class="nav-link"
                            th:href="@{/member/detail(id=${session.accessUser.id})}"
                            th:classappend="${pageName == 'memberDetail' ? 'active' : ''}"
-                           th:text="${session.accessUser.id}">Guest
+                           th:text="|${session.accessUser.nickname}님 (${session.accessUser.id})|">Guest
                         </a>
                     </li>
 
