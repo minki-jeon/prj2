@@ -69,8 +69,6 @@ public class MemberController {
 
         if (user != null) {
             MemberDetailDto member = memberServ.getDetail(id);
-            System.out.println("member.getId() = " + member.getId());
-            System.out.println("user.getId() = " + user.getId());
             if (member.getId().equals(user.getId())) {
                 model.addAttribute("member", member);
 
@@ -79,18 +77,26 @@ public class MemberController {
         }
         rttr.addFlashAttribute("alert", Map.of("code", "warning", "message", " 권한이 없습니다."));
 
-        return "redirect:/board/list";
+        return "redirect:/member/list";
     }
 
     /*
         회원 수정 / 입력 폼 / GET
      */
     @GetMapping("update")
-    public String updateForm(Model model, String id) {
-        MemberDetailDto member = memberServ.getDetail(id);
-        model.addAttribute("member", member);
+    public String updateForm(Model model, String id,
+                             @SessionAttribute(value = "accessUser", required = false) MemberDetailDto user,
+                             RedirectAttributes rttr) {
+        if (user != null) {
+            MemberDetailDto member = memberServ.getDetail(id);
+            if (member.getId().equals(user.getId())) {
+                model.addAttribute("member", member);
+                return "member/update";
+            }
+        }
+        rttr.addFlashAttribute("alert", Map.of("code", "warning", "message", " 권한이 없습니다."));
 
-        return "member/update";
+        return "redirect:/member/list";
     }
 
     /*
