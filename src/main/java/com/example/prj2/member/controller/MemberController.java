@@ -97,8 +97,8 @@ public class MemberController {
         회원 수정 / 처리 / POST
      */
     @PostMapping("update")
-    public String updateProc(MemberFormDto inputData, RedirectAttributes rttr) {
-        memberServ.update(inputData);
+    public String updateProc(MemberFormDto inputData, RedirectAttributes rttr, HttpSession session) {
+        memberServ.update(inputData, session);
 
         rttr.addAttribute("id", inputData.getId());
         return "redirect:/member/detail";

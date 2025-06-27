@@ -98,7 +98,7 @@ public class MemberService {
     /*
         회원정보 수정 처리
      */
-    public void update(MemberFormDto inputData) {
+    public void update(MemberFormDto inputData, HttpSession session) {
         // 수정(update) 대상 데이터 조회 후, save(update)
         memberRepo.findById(inputData.getId()).ifPresent(member -> {
             // TODO : 암호가 일치하지 않을 때 처리
@@ -107,7 +107,22 @@ public class MemberService {
             member.setNickname(inputData.getNickname());
             member.setInfo(inputData.getInfo());
             memberRepo.save(member);
+
+            // 세션 set
+            addUserToSession(session, member);
         });
+    }
+
+    /*
+        세션 추가 - 사용자 정보
+     */
+    private static void addUserToSession(HttpSession session, Member member) {
+        MemberDetailDto dto = new MemberDetailDto();
+        dto.setId(member.getId());
+        dto.setNickname(member.getNickname());
+        dto.setInfo(member.getInfo());
+        dto.setCreatedAt(member.getCreatedAt());
+        session.setAttribute("accessUser", dto);
     }
 
     /*
@@ -152,12 +167,7 @@ public class MemberService {
             String dbPassword = member.getPassword();
             if (dbPassword.equals(password)) {
                 // 로그인 사용자 정보 (DTO) 세션 등록
-                MemberDetailDto dto = new MemberDetailDto();
-                dto.setId(member.getId());
-                dto.setNickname(member.getNickname());
-                dto.setInfo(member.getInfo());
-                dto.setCreatedAt(member.getCreatedAt());
-                session.setAttribute("accessUser", dto);
+                addUserToSession(session, member);
                 return true;
             }
         }
