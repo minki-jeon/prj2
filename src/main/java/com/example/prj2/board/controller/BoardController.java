@@ -111,11 +111,23 @@ public class BoardController {
         게시글 삭제 / 처리 / POST
      */
     @PostMapping("delete")
-    public String deleteProc(Integer seq) {
-        boardServ.delete(seq);
+    public String deleteProc(Integer seq, RedirectAttributes rttr,
+                             @SessionAttribute(name = "accessUser", required = false) MemberDetailDto user
+    ) {
+        boolean result = boardServ.delete(seq, user);
 
+        if (result) {
+            rttr.addFlashAttribute("alert",
+                    Map.of("code", "danger", "message", seq + "번 게시물이 삭제 되었습니다."));
 
-        return "redirect:/board/list";
+            return "redirect:/board/list";
+        } else {
+            rttr.addFlashAttribute("alert",
+                    Map.of("code", "danger", "message", seq + "번 게시물이 삭제되지 않았습니다."));
+            rttr.addAttribute("id", seq);
+            return "redirect:/board/detail";
+        }
+
     }
 
 }

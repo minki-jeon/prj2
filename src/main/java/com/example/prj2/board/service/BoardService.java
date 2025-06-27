@@ -117,7 +117,14 @@ public class BoardService {
     /*
         게시글 삭제 처리
      */
-    public void delete(Integer seq) {
-        boardRepo.deleteById(seq);
+    public boolean delete(Integer seq, MemberDetailDto user) {
+        if (user != null) {
+            Member member = boardRepo.findById(seq).get().getId();
+            if (member.getId().equals(user.getId())) {
+                boardRepo.deleteById(seq);
+                return true;
+            }
+        }
+        return false;
     }
 }
