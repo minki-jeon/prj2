@@ -4,13 +4,12 @@ import com.example.prj2.board.dto.BoardDetailDto;
 import com.example.prj2.board.dto.BoardFormDto;
 import com.example.prj2.board.dto.BoardListInfo;
 import com.example.prj2.board.service.BoardService;
+import com.example.prj2.member.dto.MemberDetailDto;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -27,7 +26,13 @@ public class BoardController {
         게시글 등록 / 입력 폼 / GET
      */
     @GetMapping("write")
-    public String writeForm() {
+    public String writeForm(HttpSession session, RedirectAttributes rttr,
+                            @SessionAttribute(name = "accessUser", required = false) MemberDetailDto user
+    ) {
+        if (user == null) {
+            rttr.addFlashAttribute("alert", Map.of("code", "warning", "message", "로그인 후 글을 작성해주세요."));
+            return "redirect:/member/login";
+        }
         return "board/write";
     }
 
@@ -35,10 +40,17 @@ public class BoardController {
         게시글 등록 / 처리 / POST
      */
     @PostMapping("write")
-    public String writeProc(BoardFormDto inputData) {
-        boardServ.write(inputData);
+    public String writeProc(BoardFormDto inputData, RedirectAttributes rttr,
+                            @SessionAttribute(name = "accessUser", required = false) MemberDetailDto user
+    ) {
+        if (user != null) {
+            boardServ.write(inputData, user);
+            return "redirect:/board/list";
+        } else {
+            rttr.addFlashAttribute("alert", Map.of("code", "warning", "message", "로그인 후 글을 작성해주세요."));
+            return "redirect:/member/login";
+        }
 
-        return "redirect:/board/write";
     }
 
     /*

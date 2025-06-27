@@ -5,6 +5,7 @@ import com.example.prj2.board.dto.BoardFormDto;
 import com.example.prj2.board.dto.BoardListInfo;
 import com.example.prj2.board.entity.Board;
 import com.example.prj2.board.repository.BoardRepository;
+import com.example.prj2.member.dto.MemberDetailDto;
 import com.example.prj2.member.entity.Member;
 import com.example.prj2.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,15 +29,14 @@ public class BoardService {
     /*
         게시물 등록 처리
      */
-    public void write(BoardFormDto inputData) {
+    public void write(BoardFormDto inputData, MemberDetailDto user) {
         Board board = new Board();
         board.setTitle(inputData.getTitle());
         board.setContent(inputData.getContent());
-        board.setWriter(inputData.getWriter());
 
-        // TODO : getSession.id
-        Member member = memberRepo.findById(inputData.getWriter()).get();
+        Member member = memberRepo.findById(user.getId()).get();
         board.setId(member);
+        board.setWriter(member.getNickname());
 
         boardRepo.save(board);
     }
