@@ -7,6 +7,7 @@ import com.example.prj2.member.entity.Member;
 import com.example.prj2.member.repository.MemberRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -28,16 +29,25 @@ public class MemberService {
         회원가입 처리
      */
     public void create(MemberFormDto inputData) {
-        // TODO : ID중복체크 + 닉네임중복체크
+        Optional<Member> db = memberRepo.findById(inputData.getId());
+        if (db.isEmpty()) {
+            Optional<Member> byNickname = memberRepo.findByNickname(inputData.getNickname());
+            if (byNickname.isEmpty()) {
+                Member member = new Member();
+                member.setId(inputData.getId());
+                member.setPassword(inputData.getPassword());
+                member.setNickname(inputData.getNickname());
+                member.setInfo(inputData.getInfo());
 
-        // DTO to Entity
-        Member member = new Member();
-        member.setId(inputData.getId());
-        member.setPassword(inputData.getPassword());
-        member.setNickname(inputData.getNickname());
-        member.setInfo(inputData.getInfo());
-        // JPA Save
-        memberRepo.save(member);
+                memberRepo.save(member);
+            } else {
+                // 닉네임 중복
+                throw new DuplicateKeyException(inputData.getNickname() + "는 이미 존재하는 닉네임입니다.");
+            }
+        } else {
+            // 아이디 중복
+            throw new DuplicateKeyException(inputData.getId() + "는 이미 존재하는 아이디입니다.");
+        }
     }
 
     /*

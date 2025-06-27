@@ -2,19 +2,15 @@ package com.example.prj2.member.controller;
 
 import com.example.prj2.member.dto.MemberDetailDto;
 import com.example.prj2.member.dto.MemberFormDto;
-import com.example.prj2.member.dto.MemberListInfo;
 import com.example.prj2.member.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -36,11 +32,19 @@ public class MemberController {
         회원가입 / 처리 / POST
      */
     @PostMapping("signup")
-    public String signupProc(MemberFormDto inputData) {
-        memberServ.create(inputData);
+    public String signupProc(MemberFormDto inputData, RedirectAttributes rttr) {
+        try {
+            memberServ.create(inputData);
+            rttr.addFlashAttribute("alert", Map.of("code", "success", "message", "회원가입이 완료되었습니다."));
 
+            return "redirect:/board/list";
+        } catch (DuplicateKeyException e) {
+            rttr.addFlashAttribute("alert", Map.of("code", "warning", "message", e.getMessage()));
 
-        return "redirect:/board/list";
+            rttr.addFlashAttribute("member", inputData);
+
+            return "redirect:/member/signup";
+        }
     }
 
     /*
@@ -126,9 +130,13 @@ public class MemberController {
         boolean access = memberServ.login(id, password, session);
 
         if (access) {
+            rttr.addFlashAttribute("alert", Map.of("code", "success", "message", "로그인되었습니다."));
+
             return "redirect:/board/list";
         } else {
-            rttr.addAttribute("id", id);
+            rttr.addFlashAttribute("alert", Map.of("code", "warning", "message", "아이디/패스워드가 일치하지 않습니다."));
+            rttr.addFlashAttribute("id", id);
+
             return "redirect:/member/login";
         }
     }
