@@ -157,8 +157,10 @@ public class MemberController {
         회원 로그아웃 / 처리
      */
     @RequestMapping("logout")
-    public String logout(HttpSession session) {
+    public String logout(HttpSession session, RedirectAttributes rttr) {
         session.invalidate();
+
+        rttr.addFlashAttribute("alert", Map.of("code", "success", "message", "로그아웃되었습니다."));
 
         return "redirect:/board/list";
     }
