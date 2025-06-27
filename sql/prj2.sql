@@ -1126,3 +1126,17 @@ VALUES ('title001', 'content001', 'nick6', 'id6'),
        ('title548', 'content548', 'nick553', 'id553'),
        ('title549', 'content549', 'nick554', 'id554'),
        ('title550', 'content550', 'nick555', 'id555');
+
+
+
+UPDATE
+    board b
+        JOIN
+        member m
+        ON b.id = m.id
+SET b.writer = m.nickname
+WHERE b.id = 'id5';
+select *
+from board b
+         join member m on b.id = m.id
+where b.id = 'id5';
