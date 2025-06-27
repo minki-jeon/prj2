@@ -126,9 +126,18 @@ public class MemberController {
      */
     @PostMapping("changePw")
     public String changePassword(String id, String oldPassword, String newPassword,
-                                 RedirectAttributes rttr) {
+                                 RedirectAttributes rttr,
+                                 @SessionAttribute(value = "accessUser", required = false) MemberDetailDto user
+    ) {
+        if (user != null && user.getId().equals(id)) {
+            boolean result = memberServ.changePassword(id, oldPassword, newPassword);
 
-        memberServ.changePassword(id, oldPassword, newPassword);
+            if (result) {
+                rttr.addFlashAttribute("alert", Map.of("code", "success", "message", "암호가 변경되었습니다."));
+            } else {
+                rttr.addFlashAttribute("alert", Map.of("code", "warning", "message", "암호가 일치하지 않습니다."));
+            }
+        }
         rttr.addAttribute("id", id);
         return "redirect:/member/detail";
     }

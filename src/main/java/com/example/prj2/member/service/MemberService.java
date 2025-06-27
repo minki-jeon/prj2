@@ -135,15 +135,16 @@ public class MemberService {
     /*
         비밀번호 변경 처리
      */
-    public void changePassword(String id, String oldPassword, String newPassword) {
+    public boolean changePassword(String id, String oldPassword, String newPassword) {
         // 대상 데이터 조회, 기존 암호 일치 확인 후, save(update)
         Member member = memberRepo.findById(id).get();
         String dbPassword = member.getPassword();
         if (dbPassword.equals(oldPassword)) {
             member.setPassword(newPassword);
             memberRepo.save(member);
+            return true;
         } else {
-            // TODO : 기존 암호가 일치하지 않을 때 처리
+            return false;
         }
     }
 
