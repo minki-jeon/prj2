@@ -98,19 +98,26 @@ public class MemberService {
     /*
         회원정보 수정 처리
      */
-    public void update(MemberFormDto inputData, HttpSession session) {
-        // 수정(update) 대상 데이터 조회 후, save(update)
-        memberRepo.findById(inputData.getId()).ifPresent(member -> {
-            // TODO : 암호가 일치하지 않을 때 처리
+    public boolean update(MemberFormDto inputData, MemberDetailDto user, HttpSession session) {
+        if (user != null) {
+            // 수정(update) 대상 데이터 조회 후, save(update)
+            Member member = memberRepo.findById(inputData.getId()).get();
+            if (member.getId().equals(user.getId())) {
+                if (member.getPassword().equals(inputData.getPassword())) {
+                    // 수정 정보 업데이트
+                    //                member.setId(inputData.getId());
+                    member.setNickname(inputData.getNickname());
+                    member.setInfo(inputData.getInfo());
+                    memberRepo.save(member);
 
-            member.setId(inputData.getId());
-            member.setNickname(inputData.getNickname());
-            member.setInfo(inputData.getInfo());
-            memberRepo.save(member);
+                    // 세션 set
+                    addUserToSession(session, member);
+                    return true;
+                }
+            }
+        }
 
-            // 세션 set
-            addUserToSession(session, member);
-        });
+        return false;
     }
 
     /*

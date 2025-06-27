@@ -103,11 +103,22 @@ public class MemberController {
         회원 수정 / 처리 / POST
      */
     @PostMapping("update")
-    public String updateProc(MemberFormDto inputData, RedirectAttributes rttr, HttpSession session) {
-        memberServ.update(inputData, session);
-
+    public String updateProc(MemberFormDto inputData,
+                             RedirectAttributes rttr,
+                             HttpSession session,
+                             @SessionAttribute(value = "accessUser", required = false) MemberDetailDto user
+    ) {
+        boolean result = memberServ.update(inputData, user, session);
         rttr.addAttribute("id", inputData.getId());
-        return "redirect:/member/detail";
+        if (result) {
+            rttr.addFlashAttribute("alert", Map.of("code", "success", "message", "회원 정보가 변경되었습니다."));
+
+            return "redirect:/member/detail";
+        } else {
+            rttr.addFlashAttribute("alert", Map.of("code", "warning", "message", "암호가 일치하지 않습니다."));
+
+            return "redirect:/member/update";
+        }
     }
 
     /*
