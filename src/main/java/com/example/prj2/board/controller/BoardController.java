@@ -45,6 +45,7 @@ public class BoardController {
     ) {
         if (user != null) {
             boardServ.write(inputData, user);
+            rttr.addFlashAttribute("alert", Map.of("code", "primary", "message", "새 게시물이 등록되었습니다."));
             return "redirect:/board/list";
         } else {
             rttr.addFlashAttribute("alert", Map.of("code", "warning", "message", "로그인 후 글을 작성해주세요."));
