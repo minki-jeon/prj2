@@ -76,9 +76,13 @@
 
                 </ul>
 
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                <form th:action="@{/board/list}" class="d-flex" role="search">
+                    <input name="keyword"
+                           th:value="${(param.keyword == null || param.keyword[0].isBlank()) ? '' : param.keyword[0]}"
+                           class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                    <button class="btn btn-outline-success" type="submit">
+                        Search
+                    </button>
                 </form>
 
             </div>

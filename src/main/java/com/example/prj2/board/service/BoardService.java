@@ -44,12 +44,22 @@ public class BoardService {
     /*
         게시글 목록 조회
      */
-    public Map<String, Object> getList(Integer page) {
+    public Map<String, Object> getList(Integer page, String keyword) {
         int pageSize = 10;
 
-        Page<BoardListInfo> boardPage = boardRepo.findAllBy(
-                PageRequest.of(page - 1, pageSize, Sort.by("seq").descending())
-        );
+        Page<BoardListInfo> boardPage = null;
+
+        if (keyword == null || keyword.isBlank()) {
+            boardPage = boardRepo.findAllBy(
+                    PageRequest.of(page - 1, pageSize, Sort.by("seq").descending())
+            );
+        } else {
+            boardPage = boardRepo.findSearchByKeyword(
+                    "%" + keyword + "%",
+                    PageRequest.of(page - 1, pageSize, Sort.by("seq").descending())
+            );
+        }
+
         List<BoardListInfo> boardList = boardPage.getContent();
 
         Integer totalPage = boardPage.getTotalPages();

@@ -46,10 +46,9 @@ public class BoardController {
      */
     @GetMapping("list")
     public String listView(Model model,
-                           @RequestParam(defaultValue = "1") Integer page) {
-        Map<String, Object> resultMap = boardServ.getList(page);
-
-        // TODO : Searching
+                           @RequestParam(defaultValue = "1") Integer page,
+                           @RequestParam(defaultValue = "") String keyword) {
+        Map<String, Object> resultMap = boardServ.getList(page, keyword);
 
         model.addAllAttributes(resultMap);
         return "board/list";
