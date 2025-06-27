@@ -146,10 +146,23 @@ public class MemberController {
         회원 탈퇴 / 처리 / POST
      */
     @PostMapping("delete")
-    public String deleteProc(String id, String password) {
-        memberServ.delete(id, password);
+    public String deleteProc(String id, String password,
+                             RedirectAttributes rttr,
+                             HttpSession session,
+                             @SessionAttribute(value = "accessUser", required = false) MemberDetailDto user
+    ) {
+        boolean result = memberServ.delete(id, password, user);
+        if (result) {
+            rttr.addFlashAttribute("alert", Map.of("code", "success", "message", id + " 님 탈퇴가 완료되었습니다."));
 
-        return "redirect:/board/list";
+            // 탈퇴 후 로그아웃 처리
+            session.invalidate();
+            return "redirect:/board/list";
+        } else {
+            rttr.addFlashAttribute("alert", Map.of("code", "warning", "message", "암호가 일치하지 않습니다."));
+            rttr.addAttribute("id", id);
+            return "redirect:/board/list";
+        }
     }
 
     /*

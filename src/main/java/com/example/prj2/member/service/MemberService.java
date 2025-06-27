@@ -1,5 +1,6 @@
 package com.example.prj2.member.service;
 
+import com.example.prj2.board.repository.BoardRepository;
 import com.example.prj2.member.dto.MemberDetailDto;
 import com.example.prj2.member.dto.MemberFormDto;
 import com.example.prj2.member.dto.MemberListInfo;
@@ -24,6 +25,7 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepo;
+    private final BoardRepository boardRepo;
 
     /*
         회원가입 처리
@@ -151,17 +153,25 @@ public class MemberService {
     /*
         회원 탈퇴 처리
      */
-    public void delete(String id, String password) {
-        // 대상 데이터 조회, 기존 암호 일치 확인 후, delete
-        Member member = memberRepo.findById(id).get();
-        String dbPassword = member.getPassword();
+    public boolean delete(String id, String password, MemberDetailDto user) {
+        if (user != null) {
+            // 대상 데이터 조회, 기존 암호 일치 확인 후, delete
+            Member member = memberRepo.findById(id).get();
+            if (member.getId().equals(user.getId())) {
+                String dbPassword = member.getPassword();
+                if (dbPassword.equals(password)) {
+                    // 삭제 대상 회원의 작성한 게시글 삭제
+                    boardRepo.deleteBoardById(member);
 
-        if (dbPassword.equals(password)) {
-            memberRepo.deleteById(id);
-        } else {
-            // TODO : 기존 암호가 일치하지 않을 때 처리
+                    // 회원 삭제
+                    memberRepo.deleteById(id);
+
+                    return true;
+                }
+            }
         }
 
+        return false;
     }
 
     /*

@@ -2,12 +2,11 @@ package com.example.prj2.board.repository;
 
 import com.example.prj2.board.dto.BoardListInfo;
 import com.example.prj2.board.entity.Board;
+import com.example.prj2.member.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
 
 public interface BoardRepository extends JpaRepository<Board, Integer> {
     Page<BoardListInfo> findAllBy(PageRequest seq);
@@ -20,4 +19,6 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                     OR b.id.nickname LIKE :keyword
             """)
     Page<BoardListInfo> findSearchByKeyword(String keyword, PageRequest seq);
+
+    void deleteBoardById(Member id);
 }
