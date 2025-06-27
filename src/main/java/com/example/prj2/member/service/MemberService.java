@@ -1,5 +1,6 @@
 package com.example.prj2.member.service;
 
+import com.example.prj2.board.entity.Board;
 import com.example.prj2.board.repository.BoardRepository;
 import com.example.prj2.member.dto.MemberDetailDto;
 import com.example.prj2.member.dto.MemberFormDto;
@@ -111,6 +112,9 @@ public class MemberService {
                     member.setNickname(inputData.getNickname());
                     member.setInfo(inputData.getInfo());
                     memberRepo.save(member);
+
+                    // 게시글 작성자 변경된 닉네임으로 update
+                    boardRepo.updateWriterFromMemberById(member.getId());
 
                     // 세션 set
                     addUserToSession(session, member);
