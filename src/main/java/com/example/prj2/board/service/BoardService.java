@@ -98,15 +98,20 @@ public class BoardService {
     /*
         게시글 수정 처리
      */
-    public void update(BoardDetailDto inputData) {
-        Member member = memberRepo.findById(inputData.getWriter()).get();
+    public boolean update(BoardDetailDto inputData, MemberDetailDto user) {
+        if (user != null) {
+//            Member member = memberRepo.findById(inputData.getWriter()).get();
+            Board board = boardRepo.findById(inputData.getSeq()).get();
+            if (board.getId().getId().equals(user.getId())) {
+                board.setTitle(inputData.getTitle());
+                board.setContent(inputData.getContent());
+//                board.setId(member);
+                boardRepo.save(board);
 
-        boardRepo.findById(inputData.getSeq()).ifPresent(board -> {
-            board.setTitle(inputData.getTitle());
-            board.setContent(inputData.getContent());
-            board.setId(member);
-            boardRepo.save(board);
-        });
+                return true;
+            }
+        }
+        return false;
     }
 
     /*

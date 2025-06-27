@@ -91,8 +91,17 @@ public class BoardController {
         게시글 수정 / 처리 / POST
      */
     @PostMapping("update")
-    public String updateProc(BoardDetailDto inputData, RedirectAttributes rttr) {
-        boardServ.update(inputData);
+    public String updateProc(BoardDetailDto inputData, RedirectAttributes rttr,
+                             @SessionAttribute(name = "accessUser", required = false) MemberDetailDto user
+    ) {
+        boolean result = boardServ.update(inputData, user);
+
+        if (result) {
+            rttr.addFlashAttribute("alert", Map.of("code", "success", "message", inputData.getSeq() + "번 게시물이 수정되었습니다."));
+        } else {
+            rttr.addFlashAttribute("alert", Map.of("code", "danger", "message", inputData.getSeq() + "번 게시물이 수정되지 않았습니다."));
+        }
+
         rttr.addAttribute("seq", inputData.getSeq());
 
         return "redirect:/board/detail";
