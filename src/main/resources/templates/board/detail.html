@@ -38,7 +38,8 @@ content
                 <textarea id="textareaContent" th:text="${board.content}" cols="30" rows="10" class="form-control"
                           readonly/>
             </div>
-            <div class="mb-3">
+            <div th:if="${(session.accessUser != null) && (session.accessUser.nickname == board.writer)}"
+                 class="mb-3">
                 <a th:href="@{/board/update(seq=${board.seq})}" class="btn btn-primary">수정</a>
                 <button form="deleteForm" class="btn btn-danger">삭제</button>
             </div>
