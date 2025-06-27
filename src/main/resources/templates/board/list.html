@@ -39,7 +39,7 @@
                     <li class="page-item"
                         th:classappend="${leftPageNumber > 10 ? '' : 'disabled'}">
                         <a class="page-link"
-                           th:href="@{/board/list(page=${leftPageNumber - 10})}"
+                           th:href="@{/board/list(page=${leftPageNumber - 10}, keyword=${param.keyword})}"
                            aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
@@ -49,13 +49,13 @@
                         th:classappend="${currentPage == pageNumber ? 'active' : ''}">
                         <a th:text="${pageNumber}"
                            class="page-link"
-                           th:href="@{/board/list(page=${pageNumber})}">1
+                           th:href="@{/board/list(page=${pageNumber}, keyword=${param.keyword})}">1
                         </a>
                     </li>
                     <li class="page-item"
                         th:classappend="${(rightPageNumber + 1) <= totalPageCount ? '' : 'disabled'}">
                         <a class="page-link"
-                           th:href="@{/board/list(page=${rightPageNumber + 1})}"
+                           th:href="@{/board/list(page=${rightPageNumber + 1}, keyword=${param.keyword})}"
                            aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
