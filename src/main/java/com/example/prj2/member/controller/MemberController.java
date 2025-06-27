@@ -63,11 +63,23 @@ public class MemberController {
         회원 상세 / 화면 / GET
      */
     @GetMapping("detail")
-    public String detailView(Model model, String id) {
-        MemberDetailDto member = memberServ.getDetail(id);
-        model.addAttribute("member", member);
+    public String detailView(Model model, String id,
+                             @SessionAttribute(value = "accessUser", required = false) MemberDetailDto user,
+                             RedirectAttributes rttr) {
 
-        return "member/detail";
+        if (user != null) {
+            MemberDetailDto member = memberServ.getDetail(id);
+            System.out.println("member.getId() = " + member.getId());
+            System.out.println("user.getId() = " + user.getId());
+            if (member.getId().equals(user.getId())) {
+                model.addAttribute("member", member);
+
+                return "member/detail";
+            }
+        }
+        rttr.addFlashAttribute("alert", Map.of("code", "warning", "message", " 권한이 없습니다."));
+
+        return "redirect:/board/list";
     }
 
     /*
