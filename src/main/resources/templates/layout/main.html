@@ -22,12 +22,43 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 order-lg-1">
 
                     <li class="nav-item">
                         <a class="nav-link"
                            th:href="@{/board/list}"
                            th:classappend="${pageName == 'boardList' ? 'active' : ''}">게시글목록
+                        </a>
+                    </li>
+
+                </ul>
+                <ul class="navbar-nav mb-2 mb-lg-0 order-lg-3 ms-auto">
+
+                    <li class="nav-item" th:if="${session.accessUser == null}">
+                        <a class="nav-link"
+                           th:href="@{/member/login}"
+                           th:classappend="${pageName == 'login' ? 'active' : ''}">Guest
+                        </a>
+                    </li>
+
+                    <li class="nav-item" th:if="${session.accessUser != null}">
+                        <a class="nav-link"
+                           th:href="@{/member/detail(id=${session.accessUser.id})}"
+                           th:classappend="${pageName == 'memberDetail' ? 'active' : ''}"
+                           th:text="|${session.accessUser.nickname}님 (${session.accessUser.id})|">Guest
+                        </a>
+                    </li>
+
+                    <li class="nav-item" th:if="${session.accessUser == null}">
+                        <a class="nav-link"
+                           th:href="@{/member/login}"
+                           th:classappend="${pageName == 'login' ? 'active' : ''}">로그인
+                        </a>
+                    </li>
+
+                    <li class="nav-item" th:if="${session.accessUser != null}">
+                        <a class="nav-link"
+                           th:href="@{/member/logout}">로그아웃
                         </a>
                     </li>
 
@@ -45,38 +76,10 @@
                         </a>
                     </li>
                     -->
-                    <li class="nav-item" th:if="${session.accessUser == null}">
-                        <a class="nav-link"
-                           th:href="@{/member/login}"
-                           th:classappend="${pageName == 'login' ? 'active' : ''}">로그인
-                        </a>
-                    </li>
-
-
-                    <li class="nav-item" th:if="${session.accessUser != null}">
-                        <a class="nav-link"
-                           th:href="@{/member/logout}">로그아웃
-                        </a>
-                    </li>
-
-                    <li class="nav-item" th:if="${session.accessUser == null}">
-                        <a class="nav-link"
-                           th:href="@{/member/login}"
-                           th:classappend="${pageName == 'login' ? 'active' : ''}">Guest
-                        </a>
-                    </li>
-
-                    <li class="nav-item" th:if="${session.accessUser != null}">
-                        <a class="nav-link"
-                           th:href="@{/member/detail(id=${session.accessUser.id})}"
-                           th:classappend="${pageName == 'memberDetail' ? 'active' : ''}"
-                           th:text="|${session.accessUser.nickname}님 (${session.accessUser.id})|">Guest
-                        </a>
-                    </li>
 
                 </ul>
 
-                <form th:action="@{/board/list}" class="d-flex" role="search">
+                <form th:action="@{/board/list}" class="d-flex order-lg-2" role="search">
                     <input name="keyword"
                            th:value="${(param.keyword == null || param.keyword[0].isBlank()) ? '' : param.keyword[0]}"
                            class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
